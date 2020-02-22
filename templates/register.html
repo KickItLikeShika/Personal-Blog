@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+{% block main %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <p>
+    <center><h2>Register here to start sharing your thoughts</h2></center>
+    </p>
+    <br>
+    <div class="col-sm-9">
+        <center><form id="form" action="/register" method="post">
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" id="username" name="username" placeholder="Username" type="text">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="password" placeholder="Password" type="password">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="confirmation" placeholder="Password (again)" type="password">
+            </div>
+            <button class="btn btn-primary" id="send_form" type="submit">Register</button>
+        </form></center>
+    </div>
+
+     <script>
+        let input = document.querySelector("input[name='username']");
+        let form = document.getElementById("registrationForm");
+        let feedback = document.getElementById("userFeedback");
+        input.onkeyup = function() {
+            $.get('/check?username=' + input.value, function(data) {
+                if (!data) {
+                    input.classList.remove('is-valid');
+                    document.querySelector("button[type='submit']").addEventListener("click", function(event) {
+                        event.preventDefault();
+                    });
+                    feedback.innerHTML = "User already exists";
+                    feedback.className = "invalid-feedback";
+                    input.classList.add('is-invalid');
+                } else if (input.value.length > 0) {
+                    input.classList.remove('is-invalid');
+                    feedback.className = "valid-feedback";
+                    feedback.innerHTML = "";
+                    input.classList.add('is-valid');
+                } else {
+                    input.classList.remove('is-invalid');
+                    input.classList.remove('is-valid');
+                    feedback.innerHTML = "";
+                    document.querySelector("button[type='submit']").addEventListener("click", function(event) {
+                        event.preventDefault();
+                        input.classList.add('is-invalid');
+                        feedback.className = "invalid-feedback";
+                        feedback.innerHTML = "Must provide username";
+                    });
+                };
+            });
+        };
+    </script>
+{% endblock %}

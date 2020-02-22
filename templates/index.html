@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Your thoughts are as follows..
+{% endblock %}
+
+{% block main %}
+
+{% if get_flashed_messages() %}
+<header>
+  <div class="alert alert-primary border text-center" role="alert">
+    {{ get_flashed_messages() | join(" ") }}
+  </div>
+</header>
+{% endif %}
+    <main class="container p-5">
+    <br>
+    <br>
+    <p>
+        <center><h3> What would you like to share today? </h3></center>
+    </p>
+    <br>
+    <br>
+    <div>
+        <center><form action="/post_blog" method="post">
+            <div class="form-group">
+              <input autocomplete="off" autofocus class="form-control" name="blog_title" placeholder="Title" type="text">
+          </div>
+            <div class="form-group"></div>
+            <textarea rows="10" cols="100" name="blog_post">
+            </textarea>
+            <br>
+            <button class="btn btn-primary" type="submit">Post</button>
+        </form></center></div>
+        <br>
+        <br>
+        <br>
+        <div class="previous_entries">
+        {% if data is defined %}
+        <p><center><h2><u>A Blast from the Past: Your Previous Entries</u></h2></center></p>
+        <br>
+        <br>
+        {% endif %}
+    {% for data in data %}
+        <center>
+            <h3>{{ data["title"] }}</h3>
+            <br>
+            {{ data["content"] }}
+        </center>
+    {% endfor %}
+    </div>
+    </div>
+    <div style="clear:both;"></div>
+
+{% endblock %}

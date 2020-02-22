@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Blog, Blog and More Blog{% block title %}{% endblock %}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: 1500px}
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+      overflow:auto;
+    }
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height: auto;}
+    }
+    .form
+    {
+    display: block;
+    text-align: center;
+    }
+    form
+    {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    }
+  .previous_entries {
+    height: 1000px;
+    overflow: scroll;
+  }
+  .search_results {
+    height: 1000px;
+    overflow: scroll;
+  }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav">
+      <h4>Your Blog Here</h4>
+      <ul class="nav nav-pills nav-stacked">
+        {% if session.user_id %}
+        <li class="nav-link"><a href="/">Home</a></li>
+        {% endif %}
+        <li><a class="nav-link" href="/register">Register</a></li>
+        {% if not session.user_id %}
+        <li><a hclass="nav-link" href="/login">Login</a></li>
+        {% endif %}
+        {% if session.user_id %}
+        <li><a class="nav-link" href="logout">Logout</a></li>
+        {% endif %}
+      </ul><br>
+      <form id="form" action="/search" method="post">
+        <div class="input-group">
+          <input type="text" class="form-control" id="username" name="username" placeholder="Search For Blog...">
+          <span class="input-group-btn">
+            <button class="btn btn-default" id="search_for_blog" type="submit">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </span>
+        </div>
+      </form>
+    </div>
+    {% block main %}{% endblock %}
+  </div>
+</div>
+    <script>
+        var username = document.getElementById("username");
+        var inputForm = document.querySelector("form");
+        document.getElementById("search_for_blog").addEventListener("click", function(event) {
+                 event.preventDefault()
+        });
+        document.getElementById("search_for_blog").onclick = function(data) {
+            $.get("/check", {username: username.value}, function(data) {
+                if (data == false) {
+                    document.forms["form"].submit();
+                }
+                else {
+                    alert("Sorry - we didn't find the blog you're looking for!");
+                }
+            });
+        };
+    </script>
+
+</body>
+</html>

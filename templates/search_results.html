@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    The results of your search are as follows
+{% endblock %}
+
+{% block main %}
+
+<main class="container p-5">
+
+<div class="search_results">
+        <p><center><h1><u>This is what we found</u></h1></center></p>
+        <br>
+        <br>
+    {% for data in data %}
+        <center>
+            <h3>{{ data["title"] }}</h3>
+            <br>
+            {{ data["content"] }}
+        </center>
+    {% endfor %}
+    </div>
+    </div>
+    <div style="clear:both;"></div>
+
+{% endblock %}
