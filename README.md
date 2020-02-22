@@ -1,6 +1,6 @@
 # Presonal Blog
 
-This wan my Final Project for CS50X, but i have improved it recently.
+This was my Final Project for CS50X, but i have improved it recently.
 
 This is a simple blog web app.
 Users are able to register for an account, login, post a "blog" and view their previous blogs.
